@@ -16,7 +16,6 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public void createUsersTable() {
         try (PreparedStatement pstm = connection.prepareStatement(SQL_CREATE)) {
-            connection.setAutoCommit(false);
             pstm.execute();
             connection.commit();
         } catch (SQLException e) {
@@ -31,7 +30,6 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public void dropUsersTable() {
         try (PreparedStatement pstm = connection.prepareStatement("DROP TABLE IF EXISTS users")) {
-            connection.setAutoCommit(false);
             pstm.execute();
             connection.commit();
         } catch (SQLException e) {
@@ -46,7 +44,6 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public void saveUser(String name, String lastName, byte age) {
         try (PreparedStatement pstm = connection.prepareStatement("INSERT INTO users (name, last_name, age) VALUES (?, ?, ?)")) {
-            connection.setAutoCommit(false);
             pstm.setString(1, name);
             pstm.setString(2, lastName);
             pstm.setByte(3, age);
@@ -64,7 +61,6 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public void removeUserById(long id) {
         try (PreparedStatement pstm = connection.prepareStatement("DELETE FROM users WHERE id = ?")) {
-            connection.setAutoCommit(false);
             pstm.setLong(1, id);
             pstm.executeUpdate();
             connection.commit();
@@ -82,7 +78,6 @@ public class UserDaoJDBCImpl implements UserDao {
         List<User> users = new ArrayList<>();
 
         try (ResultSet resultSet = connection.createStatement().executeQuery("SELECT * FROM users")) {
-            connection.setAutoCommit(false);
             while(resultSet.next()) {
                 User user = new User(resultSet.getString("name"),
                         resultSet.getString("last_name"), resultSet.getByte("age"));
@@ -105,7 +100,6 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public void cleanUsersTable() {
         try (PreparedStatement pstm = connection.prepareStatement("TRUNCATE TABLE users")) {
-            connection.setAutoCommit(false);
             pstm.execute();
             connection.commit();
         } catch (SQLException e) {

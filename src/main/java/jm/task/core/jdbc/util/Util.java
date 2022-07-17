@@ -17,14 +17,13 @@ public class Util {
         try {
             if (null == connection || connection.isClosed()) {
                 Class.forName("com.mysql.cj.jdbc.Driver");
-                connection = DriverManager
-                        .getConnection(URL, USER_NAME,PASSWORD);
+                connection = DriverManager.getConnection(URL, USER_NAME,PASSWORD);
                 connection.setAutoCommit(false);
             }
-        } catch (SQLException e ) {
+        } catch (SQLException e) {
             e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+        } catch (ClassNotFoundException e1) {
+            e1.printStackTrace();
         }
     }
 
@@ -36,6 +35,7 @@ public class Util {
     }
 
     public static Connection getConnection() {
+
         return connection;
     }
 }
